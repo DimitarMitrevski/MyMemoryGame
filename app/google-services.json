@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "497701817993",
+    "project_id": "mymemory-4160e",
+    "storage_bucket": "mymemory-4160e.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:497701817993:android:c977364ef6023b82894058",
+        "android_client_info": {
+          "package_name": "com.android.dimitar.mymemorygame"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "497701817993-idtsu1i4qcmiii84p0s200o8jr4a965l.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCCwvmWxWXuAzQLdOxzc3lWrknzGDzLPz0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "497701817993-idtsu1i4qcmiii84p0s200o8jr4a965l.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

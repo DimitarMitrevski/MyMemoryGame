@@ -1,8 +1,10 @@
 package com.android.dimitar.mymemorygame
 
 import android.animation.ArgbEvaluator
-import android.content.ContentValues.TAG
+import android.app.ActionBar
+import android.app.Activity
 import android.content.Intent
+import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -10,20 +12,25 @@ import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import android.widget.EditText
 import android.widget.RadioGroup
 import android.widget.TextView
-import androidx.appcompat.app.AlertDialog
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.android.dimitar.mymemorygame.models.BoardSize
-import com.android.dimitar.mymemorygame.models.MemoryCard
 import com.android.dimitar.mymemorygame.models.MemoryGame
-import com.android.dimitar.mymemorygame.utils.DEFAULT_ICONS
+import com.android.dimitar.mymemorygame.models.UserImageList
 import com.android.dimitar.mymemorygame.utils.EXTRA_BOARD_SIZE
+import com.android.dimitar.mymemorygame.utils.EXTRA_GAME_NAME
+import com.github.jinatonic.confetti.CommonConfetti
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
+import com.squareup.picasso.Picasso
 
 class MainActivity : AppCompatActivity() {
 
@@ -32,7 +39,7 @@ class MainActivity : AppCompatActivity() {
         private const val CREATE_REQUEST_CODE = 248
     }
 
-    private lateinit var clRoot:ConstraintLayout
+    private lateinit var clRoot:CoordinatorLayout
  private lateinit var memoryGame: MemoryGame;
 private lateinit var adapter:MemoryBoardAdapter;
  private lateinit var rvBoard: RecyclerView;
@@ -40,6 +47,9 @@ private lateinit var adapter:MemoryBoardAdapter;
  private  lateinit var tvNumPairs: TextView;
 
     private  var boardSize: BoardSize = BoardSize.EASY
+    private val db = Firebase.firestore
+    private  var gameName:String? = null
+    private  var customGameImages: List<String>? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -49,9 +59,6 @@ private lateinit var adapter:MemoryBoardAdapter;
         tvNumMoves = findViewById(R.id.tvNumMoves);
         tvNumPairs = findViewById(R.id.tvNumPairs);
 
-        val intent = Intent(this, CreateActivity::class.java);
-        intent.putExtra(EXTRA_BOARD_SIZE, BoardSize.MEDIUM);
-        startActivity(intent);
 
         setupBoard();
     }
@@ -82,8 +89,63 @@ private lateinit var adapter:MemoryBoardAdapter;
                 showCreationDialog();
                 return true;
             }
+            R.id.mi_download->{
+                showeDownloadDialog();
+                return true;
+            }
             }
     return super.onOptionsItemSelected(item)
+    }
+
+
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+
+        if(requestCode== CREATE_REQUEST_CODE && resultCode==Activity.RESULT_OK){
+            val  customGameNam:String? = data?.getStringExtra(EXTRA_GAME_NAME);
+            if(customGameNam==null){
+                Log.e(TAG, "Got null custom game from CreateActivity");
+                return;
+            }
+            downloadGame(customGameNam)
+        }
+        super.onActivityResult(requestCode, resultCode, data)
+
+    }
+
+    private fun showeDownloadDialog() {
+val boardDownloadView = LayoutInflater.from(this).inflate(R.layout.dialog_download_board,null)
+        showAlertDialog("Fetch memory game", boardDownloadView, View.OnClickListener {
+            // Grab the text of the game name.
+            val etDownloadGame = boardDownloadView.findViewById<EditText>(R.id.etDownloadGame).text.toString().trim();
+            downloadGame(etDownloadGame);
+
+
+        })
+    }
+
+    private fun downloadGame(customGameName: String){
+        db.collection("games").document(customGameName).get().addOnSuccessListener {
+            document->
+            var userImageList:UserImageList? = document.toObject(UserImageList::class.java)
+            if(userImageList?.images==null){
+                Log.e(TAG, "Invalid custom game data from firestore.");
+                Snackbar.make(clRoot, "Sorry, we couldn't find such game, '$customGameName'", Snackbar.LENGTH_LONG).show()
+                    return@addOnSuccessListener
+            }
+            val numCards = userImageList.images!!.size*2
+boardSize = BoardSize.getByValue(numCards);
+            customGameImages = userImageList.images!!;
+            for (imageUrl in userImageList.images!!) {
+            Picasso.get().load(imageUrl).fetch()
+            }
+            Snackbar.make(clRoot, "Your playing this $customGameName", Snackbar.LENGTH_SHORT).show();
+            gameName = customGameName
+            setupBoard()
+        }.addOnFailureListener{exception->
+            Log.e(TAG, "Exception when retriving game", exception)
+        }
+
     }
 
     private fun showCreationDialog() {
@@ -127,6 +189,8 @@ private lateinit var adapter:MemoryBoardAdapter;
                     R.id.rbMedium->BoardSize.MEDIUM
                    else->BoardSize.HARD
             }
+            gameName=null;
+            customGameImages = null;
             setupBoard()
         })
     }
@@ -138,6 +202,7 @@ private lateinit var adapter:MemoryBoardAdapter;
   }.show()
 }
     private fun setupBoard() {
+        supportActionBar?.title = gameName?: getString(R.string.app_name);
         when(boardSize){
             BoardSize.EASY -> {
                 tvNumMoves.text = "Easy 4 x 2"
@@ -156,7 +221,7 @@ private lateinit var adapter:MemoryBoardAdapter;
 
         tvNumPairs.setTextColor(ContextCompat.getColor(this,R.color.color_progress_none))
 
-        memoryGame = MemoryGame(boardSize)
+        memoryGame = MemoryGame(boardSize, customGameImages)
 
         adapter = MemoryBoardAdapter(this, boardSize, memoryGame.cards, object:MemoryBoardAdapter.CardClickListener{
             override fun onCardClicked(position: Int) {
@@ -190,7 +255,9 @@ private lateinit var adapter:MemoryBoardAdapter;
             tvNumPairs.setTextColor(color)
             tvNumPairs.text="Pairs: ${memoryGame.numPairsFound} / ${boardSize.getNumPairs()}"
             if(memoryGame.haveWonGame()){
+
                 Snackbar.make(clRoot, "You won! Congratulations.",Snackbar.LENGTH_LONG).show();
+                CommonConfetti.rainingConfetti(clRoot, intArrayOf(Color.YELLOW, Color.BLUE, Color.DKGRAY)).oneShot()
             }
         }
         tvNumMoves.text = "Moves: ${memoryGame.getNumMoves()}"
