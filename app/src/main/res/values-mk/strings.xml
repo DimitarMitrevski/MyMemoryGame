@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Моја Меморија Игра</string>
+    <string name="Save">Зачувај</string>
+    <string name="hint">Име на играта (пример: "panda_fun")</string>
+    <string name="password">Лозинка</string>
+    <string name="login">Најави се</string>
+    <string name="loginWithGoogle">Најави се со Google</string>
+    <string name="doYouHaveAnAccount">Дали имаш корисничка сметка?</string>
+    <string name="register">Регистрирај се</string>
+    <string name="easyMode">Лесно (4 x 2)</string>
+    <string name="mediumMode">Средно (6 x 3)</string>
+    <string name="hardMode">Тешко (6 x 4)</string>
+    <string name="enterGame">Внеси име на играта</string>
+    <string name="title">Наслов</string>
+    <string name="message">Порака</string>
+    <string name="refresh">Освежи</string>
+    <string name="newSize">Избери нова големина</string>
+    <string name="costumGame">Креирај нова игра</string>
+    <string name="downloadGame">Превземи нова игра</string>
+    <string name="signOut">Одјави се</string>
+    <string name="provideAccessPhotos">За да креираш нова игра мора да овозможиш пристап до сликите.</string>
+    <string name="choosePics">Избери слики</string>
+    <string name="nameTaken">Името е зафатено</string>
+    <string name="gameAlreadyExists">Веќе постио игра со тоа име \'%s\'. Ве молиме изберете друго</string>
+    <string name="errorSavingGame">Се појави грешка при зачувување на играта. </string>
+    <string name="failToUplImage">Се појави грешка при прикачување на сликата.</string>
+    <string name="failGameCreation">Неуспешно креирање на игра.</string>
+    <string name="uploadComplete">Прикачувањето беше успешно! Ајде да ја играме твојата игра %s.</string>
+    <string name="errorLogin">Се појави грешка при најавувањето. </string>
+    <string name="enterEmailandPassword">Ве молиме внесете email и лозинка.</string>
+    <string name="quitGame">Излези од играта?</string>
+    <string name="fetchGame">Преземи нова игра</string>
+    <string name="gameNotFound"> Се извинуваме, не можеме ја пронајдеме играта \'%s\'</string>
+    <string name="playing">Вие ја играте %s</string>
+    <string name="createMemBoard">Креирај твоја мемориска табла</string>
+    <string name="chooseSize">Изберете нова големина</string>
+    <string name="pairs">Парови</string>
+    <string name="alreadyWon">Веќе победивте!</string>
+    <string name="invalidMove">Невалиден чекор!</string>
+    <string name="wonCongrats">Победа! Ви честитаме.</string>
+    <string name="moves">Чекори</string>
+</resources>

@@ -85,7 +85,8 @@ class FirebaseUIActivity : AppCompatActivity() {
             // sign-in flow using the back button. Otherwise check
             // response.getError().getErrorCode() and handle the error.
             // ...
-            Toast.makeText(this, "An error occured while trying to log in.",Toast.LENGTH_LONG);
+                val errorLogin = getString(R.string.errorLogin)
+            Toast.makeText(this, errorLogin,Toast.LENGTH_LONG);
         }
     }
 

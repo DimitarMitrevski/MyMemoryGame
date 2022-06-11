@@ -5,22 +5,22 @@
     <item
         android:id="@+id/mi_refresh"
         android:icon="@drawable/ic_refresh"
-        android:title="Refresh"
+        android:title="@string/refresh"
         app:showAsAction="always" />
     <item
         android:id="@+id/mi_new_size"
-        android:title="Choose new size"
+        android:title="@string/newSize"
         app:showAsAction="never" />
     <item
         android:id="@+id/mi_custom"
-        android:title="Create custom game"
+        android:title="@string/costumGame"
         app:showAsAction="never" />
     <item
         android:id="@+id/mi_download"
-        android:title="Download custom game"
+        android:title="@string/downloadGame"
         app:showAsAction="never" />
     <item
         android:id="@+id/mi_signout"
-        android:title="Sign out"
+        android:title="@string/signOut"
         app:showAsAction="never" />
 </menu>

@@ -111,7 +111,8 @@ btnSave.isEnabled = shouldEnableSaveButton();
             if(grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED){
                 launchIntentForPhotos();
             }else{
-                Toast.makeText(this,"In order to create a custom game you need to provide access to your photos", Toast.LENGTH_LONG).show()
+               val provideAccessPhotos =  getString(R.string.provideAccessPhotos)
+                Toast.makeText(this,provideAccessPhotos, Toast.LENGTH_LONG).show()
             }
         }
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
@@ -149,7 +150,8 @@ btnSave.isEnabled = shouldEnableSaveButton();
             chosenImagesUris.add(selectedUri)
         }
     adapter.notifyDataSetChanged()
-        supportActionBar?.title = "Choose pics (${chosenImagesUris.size} / $numberImagesRequired)"
+        val choosePics = getString(R.string.choosePics)
+        supportActionBar?.title = "$choosePics (${chosenImagesUris.size} / $numberImagesRequired)"
         
         btnSave.isEnabled = shouldEnableSaveButton();
     }
@@ -171,14 +173,17 @@ btnSave.isEnabled = shouldEnableSaveButton();
         // Check that we're not overwriting someones else data
         db.collection("games").document(customGameName).get().addOnSuccessListener { document->
             if(document!=null && document.data!=null){
-                AlertDialog.Builder(this).setTitle("Name taken").setMessage("A game already exists with the name '$customGameName'. Please choose another").setPositiveButton("OK", null).show()
+                val nameTaken = getString(R.string.nameTaken)
+                val gameAlreadyExists = getString(R.string.gameAlreadyExists, customGameName)
+                AlertDialog.Builder(this).setTitle(nameTaken).setMessage(gameAlreadyExists).setPositiveButton("OK", null).show()
            btnSave.isEnabled=true;
             }else{
                 handleImageUploading(customGameName);
             }
         }.addOnFailureListener{exception->
             Log.e(TAG, "Encountered error while saving memory game", exception);
-            Toast.makeText(this, "Encountered error while saving memory game", Toast.LENGTH_SHORT).show()
+            val errorSavingGame = getString(R.string.errorSavingGame)
+            Toast.makeText(this, errorSavingGame, Toast.LENGTH_SHORT).show()
             btnSave.isEnabled=true;
 
         }
@@ -207,7 +212,8 @@ btnSave.isEnabled = shouldEnableSaveButton();
                         "Exception with Firebase storage",
                         downloadUrlTask.exception
                     );
-                    Toast.makeText(this, "Failed to upload image", Toast.LENGTH_SHORT).show()
+                    val failToUplImage = getString(R.string.failToUplImage)
+                    Toast.makeText(this, failToUplImage, Toast.LENGTH_SHORT).show()
                     didEncounterError = true;
                     return@addOnCompleteListener;
                 }
@@ -237,11 +243,13 @@ btnSave.isEnabled = shouldEnableSaveButton();
             if(!gameCreationTask.isSuccessful){
 
                 Log.e(TAG, "Exception with game creation", gameCreationTask.exception);
-                Toast.makeText(this, "Failed game creation", Toast.LENGTH_SHORT).show();
+                val failGameCreation = getString(R.string.failGameCreation)
+                Toast.makeText(this, failGameCreation, Toast.LENGTH_SHORT).show();
                 return@addOnCompleteListener
             }
             Log.i(TAG, "Successfully created game $gameName");
-            AlertDialog.Builder(this).setTitle("Upload completed! Let's play your game $gameName").setPositiveButton("OK"){ _,_->
+            val uploadComplete = getString(R.string.uploadComplete, gameName)
+            AlertDialog.Builder(this).setTitle(uploadComplete).setPositiveButton("OK"){ _,_->
                 val resultData = Intent()
                 resultData.putExtra(EXTRA_GAME_NAME,gameName);
                 setResult(Activity.RESULT_OK, resultData)

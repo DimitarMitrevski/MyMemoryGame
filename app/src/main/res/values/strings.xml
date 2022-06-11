@@ -2,8 +2,8 @@
     <string name="app_name">My Memory Game</string>
     <string name="facebook_application_id" translatable="false">730153898328078</string>
     <string name="facebook_login_protocol_scheme" translatable="false">fb730153898328078</string>
-    <string name="facebook_client_token">dbf5c0de64bc1aa234dd64c0619d6b5f</string>
-    <string name="your_web_client_id">497701817993-idtsu1i4qcmiii84p0s200o8jr4a965l.apps.googleusercontent.com</string>
+    <string name="facebook_client_token" translatable="false">dbf5c0de64bc1aa234dd64c0619d6b5f</string>
+    <string name="your_web_client_id" translatable="false">497701817993-idtsu1i4qcmiii84p0s200o8jr4a965l.apps.googleusercontent.com</string>
     <string name="Save">Save</string>
     <string name="hint">Game name (example: "panda_fun")</string>
     <string name="password">Password</string>
@@ -17,5 +17,31 @@
     <string name="enterGame">Enter game name</string>
     <string name="title">Title</string>
     <string name="message">Message</string>
+    <string name="refresh">Refresh</string>
+    <string name="newSize">Choose a new size</string>
+    <string name="costumGame">Create custom game</string>
+    <string name="downloadGame">Download custom game</string>
+    <string name="signOut">Sign out</string>
+    <string name="provideAccessPhotos">In order to create a custom game you need to provide access to your photos</string>
+    <string name="choosePics">Choose pics</string>
+    <string name="nameTaken">Name taken</string>
+    <string name="gameAlreadyExists">A game already exists with the name \'%s\'. Please choose another</string>
+    <string name="errorSavingGame">Encountered error while saving memory game.</string>
+    <string name="failToUplImage">Failed to upload image</string>
+    <string name="failGameCreation">Failed game creation</string>
+    <string name="uploadComplete">Upload completed! Let\'s play your game %s</string>
+    <string name="errorLogin">An error occured while trying to log in.</string>
+    <string name="enterEmailandPassword">Please enter email and password!</string>
+    <string name="quitGame">Quit your game?</string>
+    <string name="fetchGame">Fetch memory game</string>
+    <string name="gameNotFound">Sorry, we could\n\'t find such game, \'%s\'</string>
+    <string name="playing">Your playing this %s</string>
+    <string name="createMemBoard">Create your own memory board</string>
+    <string name="chooseSize">Choose new size</string>
+    <string name="pairs">Pairs</string>
+    <string name="alreadyWon">You already won!</string>
+    <string name="invalidMove">Invalid move!</string>
+    <string name="wonCongrats">You won! Congratulations.</string>
+    <string name="moves">Moves</string>
 
 </resources>

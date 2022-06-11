@@ -56,7 +56,8 @@ if(email.trim().length > 0 && password.trim().length>0) {
         Toast.makeText(applicationContext, exception.localizedMessage, Toast.LENGTH_LONG).show()
     }
 } else{
-    Toast.makeText(this, "Please enter email and password!", Toast.LENGTH_SHORT).show();
+    val enterEmailAndPassword = getString(R.string.enterEmailandPassword)
+    Toast.makeText(this, enterEmailAndPassword, Toast.LENGTH_SHORT).show();
     buttonLogin.isEnabled=true;
 }
     }
