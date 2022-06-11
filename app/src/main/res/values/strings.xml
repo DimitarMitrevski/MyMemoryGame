@@ -1,3 +1,21 @@
 <resources>
     <string name="app_name">My Memory Game</string>
+    <string name="facebook_application_id" translatable="false">730153898328078</string>
+    <string name="facebook_login_protocol_scheme" translatable="false">fb730153898328078</string>
+    <string name="facebook_client_token">dbf5c0de64bc1aa234dd64c0619d6b5f</string>
+    <string name="your_web_client_id">497701817993-idtsu1i4qcmiii84p0s200o8jr4a965l.apps.googleusercontent.com</string>
+    <string name="Save">Save</string>
+    <string name="hint">Game name (example: "panda_fun")</string>
+    <string name="password">Password</string>
+    <string name="login">LOGIN</string>
+    <string name="loginWithGoogle">LOG IN with Google</string>
+    <string name="doYouHaveAnAccount">Do you have not an account?</string>
+    <string name="register">Register</string>
+    <string name="easyMode">Easy (4 x 2)</string>
+    <string name="mediumMode">Medium (6 x 3)</string>
+    <string name="hardMode">Hard (6 x 4)</string>
+    <string name="enterGame">Enter game name</string>
+    <string name="title">Title</string>
+    <string name="message">Message</string>
+
 </resources>

@@ -14,7 +14,7 @@
         android:layout_marginTop="16dp"
         android:digits="0123456789abcdefghijklmnopqrstuvwxyz_-"
         android:ems="10"
-        android:hint='Enter game name'
+        android:hint='@string/enterGame'
         android:imeOptions="actionDone"
         android:inputType="text"
         android:importantForAutofill="no"

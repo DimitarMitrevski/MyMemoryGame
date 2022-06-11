@@ -13,7 +13,7 @@
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
         android:enabled="false"
-        android:text="Save"
+        android:text="@string/Save"
         app:layout_constraintBottom_toTopOf="@+id/pbUploading"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
@@ -28,7 +28,7 @@
         android:layout_marginBottom="8dp"
         android:digits="0123456789abcdefghijklmnopqrstuvwxyz_-"
         android:ems="10"
-        android:hint='Game name (example: "panda_fun")'
+        android:hint='@string/hint'
         android:imeOptions="actionDone"
         android:inputType="text"
         android:importantForAutofill="no"

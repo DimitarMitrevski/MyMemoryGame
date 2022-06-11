@@ -25,9 +25,11 @@ import com.android.dimitar.mymemorygame.models.MemoryGame
 import com.android.dimitar.mymemorygame.models.UserImageList
 import com.android.dimitar.mymemorygame.utils.EXTRA_BOARD_SIZE
 import com.android.dimitar.mymemorygame.utils.EXTRA_GAME_NAME
+import com.firebase.ui.auth.AuthUI
 import com.github.jinatonic.confetti.CommonConfetti
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
+import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.squareup.picasso.Picasso
@@ -92,6 +94,14 @@ private lateinit var adapter:MemoryBoardAdapter;
             R.id.mi_download->{
                 showeDownloadDialog();
                 return true;
+            }
+            R.id.mi_signout->{
+                AuthUI.getInstance()
+                    .signOut(this)
+                    .addOnCompleteListener {
+                        val intent = Intent(this, FirebaseUIActivity::class.java)
+                        startActivity(intent)
+                    }
             }
             }
     return super.onOptionsItemSelected(item)

@@ -14,6 +14,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "497701817993-vhtusoa8nlokukri1r5ii4cqerbiac22.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.android.dimitar.mymemorygame",
+            "certificate_hash": "932c327597c7935441905a3d19139bcf0ab937db"
+          }
+        },
+        {
           "client_id": "497701817993-idtsu1i4qcmiii84p0s200o8jr4a965l.apps.googleusercontent.com",
           "client_type": 3
         }
