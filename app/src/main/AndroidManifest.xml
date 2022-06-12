@@ -47,11 +47,11 @@
         <activity
             android:name=".CreateActivity"
             android:exported="false"
-            android:screenOrientation="portrait" />
+          />
         <activity
             android:name=".MainActivity"
             android:exported="false"
-            android:screenOrientation="portrait">
+           >
 
             <!-- <intent-filter> -->
             <!-- <action android:name="android.intent.action.MAIN" /> -->

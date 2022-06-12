@@ -18,6 +18,9 @@ class ImagePickerAdapter(
     private val imageClickListener: ImageClickListener
     ) : RecyclerView.Adapter<ImagePickerAdapter.ViewHolder>() {
 
+    companion object{
+        private const val MARGIN_SIZE= 10
+    }
 
     interface ImageClickListener {
         fun onPlaceHolderClicked()
@@ -25,12 +28,18 @@ class ImagePickerAdapter(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
      val view =  LayoutInflater.from(context).inflate(R.layout.card_image,parent,false)
-      val cardWidth =   parent.width / boardSize.getWidht()
-    val cardHeight = parent.height / boardSize.getHeight()
+      val cardWidth =   parent.width / boardSize.getWidht()  - (2* MARGIN_SIZE);
+    val cardHeight = parent.height / boardSize.getHeight() - (2* MARGIN_SIZE);
         val cardSideLenght = min(cardWidth,cardHeight);
-       val layoutParams =  view.findViewById<ImageView>(R.id.ivCustomImage).layoutParams
+       val layoutParams =  view.findViewById<ImageView>(R.id.ivCustomImage).layoutParams as ViewGroup.MarginLayoutParams
         layoutParams.width = cardSideLenght
         layoutParams.height = cardSideLenght
+        layoutParams.setMargins(
+           MARGIN_SIZE,
+          MARGIN_SIZE,
+          MARGIN_SIZE,
+           MARGIN_SIZE
+        );
         return  ViewHolder(view)
     }
 

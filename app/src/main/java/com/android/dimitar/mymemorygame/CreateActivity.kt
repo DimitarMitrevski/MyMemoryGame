@@ -66,7 +66,8 @@ class CreateActivity : AppCompatActivity() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true);
         boardSize = intent.getSerializableExtra(EXTRA_BOARD_SIZE) as BoardSize
       numberImagesRequired = boardSize.getNumPairs()
-        supportActionBar?.title = "Choose picks (0 / $numberImagesRequired)"
+        val choosePics = getString(R.string.choosePics);
+        supportActionBar?.title = "$choosePics (0 / $numberImagesRequired)"
 
         btnSave.setOnClickListener{
             saveDataToFirebase();

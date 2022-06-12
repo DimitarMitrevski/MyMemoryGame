@@ -8,15 +8,16 @@ import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import android.view.LayoutInflater
-import android.view.Menu
-import android.view.MenuItem
-import android.view.View
+import android.view.*
 import android.widget.EditText
 import android.widget.RadioGroup
 import android.widget.TextView
+import android.widget.Toast
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.content.ContextCompat
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.room.Room
@@ -50,10 +51,8 @@ class MainActivity : AppCompatActivity() {
     private  var gameName:String? = null
     private  var customGameImages: List<String>? = null
 
-
-         private var roomDB :AppDatabase? = null
-      private var recordsDao:RecordsDao?=null;
-         private  var records: List<Records>? = null
+    private  lateinit var mRecordViewModel: RecordViewModel
+    private lateinit var records:List<Records>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -62,17 +61,20 @@ class MainActivity : AppCompatActivity() {
         rvBoard = findViewById(R.id.rvBoard);
         tvNumMoves = findViewById(R.id.tvNumMoves);
         tvNumPairs = findViewById(R.id.tvNumPairs);
+        mRecordViewModel = ViewModelProvider(this).get(RecordViewModel::class.java)
+        mRecordViewModel.readAllData.observe(this, Observer { record-> records =record
+        Log.i(TAG, "New record has been added ${records.size} $records")
+        })
+        val screenOrientation = getScreenOrientation(this)
+        boardSize.orientation = screenOrientation;
 
-//Log.i(TAG,"The number of records is ${records.size}, $records");
-
-        roomDB = Room.databaseBuilder(
-            applicationContext,
-            AppDatabase::class.java, "stats"
-        ).build()
-        recordsDao = roomDB!!.recordsDao()
-        records = recordsDao!!.getAll()
 
         setupBoard();
+    }
+
+    private fun insertDataToDataBase(id:Int, gameName:String, score:Int){
+        val record = Records(id,gameName, score);
+        mRecordViewModel.addRecord(record);
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -215,6 +217,7 @@ boardSize = BoardSize.getByValue(numCards);
                     R.id.rbMedium->BoardSize.MEDIUM
                    else->BoardSize.HARD
             }
+            boardSize.orientation = getScreenOrientation(this)
             gameName=null;
             customGameImages = null;
             setupBoard()
@@ -302,12 +305,20 @@ boardSize = BoardSize.getByValue(numCards);
                     }
                 }
 
-//                val newRecord = Records(records.size,gameType, memoryGame.getNumMoves())
-//                recordsDao.insertAll(newRecord)
+                insertDataToDataBase(records.size,gameType,memoryGame.getNumMoves());
             }
         }
         val moves = getString(R.string.moves)
         tvNumMoves.text = "$moves: ${memoryGame.getNumMoves()}"
         adapter.notifyDataSetChanged();
+    }
+    fun getScreenOrientation(context: Context): String {
+        val screenOrientation = (context.getSystemService(Context.WINDOW_SERVICE) as WindowManager).defaultDisplay.orientation
+        when (screenOrientation) {
+            Surface.ROTATION_0 -> return "SCREEN_ORIENTATION_PORTRAIT"
+            Surface.ROTATION_90 -> return "SCREEN_ORIENTATION_LANDSCAPE"
+            Surface.ROTATION_180 -> return "SCREEN_ORIENTATION_REVERSE_PORTRAIT"
+            else -> return "SCREEN_ORIENTATION_REVERSE_LANDSCAPE"
+        }
     }
 }
